@@ -49,7 +49,7 @@ class SimpleDrivingEnv(gym.Env):
 
     def step(self, action):
         # Feed action to the car and get observation of car's state
-        print("Inside Step")
+        # print("Inside Step")
         if (self._isDiscrete):
             fwd = [-1, -1, -1, 0, 0, 0, 1, 1, 1]
             steerings = [-0.6, 0, 0.6, -0.6, 0, 0.6, -0.6, 0, 0.6]
