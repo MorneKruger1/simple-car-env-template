@@ -49,6 +49,7 @@ class SimpleDrivingEnv(gym.Env):
 
     def step(self, action):
         # Feed action to the car and get observation of car's state
+        print("Inside Step")
         if (self._isDiscrete):
             fwd = [-1, -1, -1, 0, 0, 0, 1, 1, 1]
             steerings = [-0.6, 0, 0.6, -0.6, 0, 0.6, -0.6, 0, 0.6]
@@ -81,7 +82,7 @@ class SimpleDrivingEnv(gym.Env):
 
         # Done by reaching goal
         if dist_to_goal < 1.5 and not self.reached_goal:
-            #print("reached goal")
+            print("reached goal")
             self.done = True
             self.reached_goal = True
 
