@@ -82,7 +82,8 @@ class SimpleDrivingEnv(gym.Env):
 
         # Done by reaching goal
         if dist_to_goal < 1.5 and not self.reached_goal:
-            print("reached goal")
+            # print("reached goal")
+            reward += 200
             self.done = True
             self.reached_goal = True
 
