@@ -47,6 +47,10 @@ class SimpleDrivingEnv(gym.Env):
         self.reset()
         self._envStepCounter = 0
 
+        self.obstacle_object = None
+        self.obstacle = None
+
+
     def step(self, action):
         # Feed action to the car and get observation of car's state
         # print("Inside Step")
@@ -92,7 +96,7 @@ class SimpleDrivingEnv(gym.Env):
 
     def seed(self, seed=None):
         self.np_random, seed = gym.utils.seeding.np_random(seed)
-        return [seed]
+        return [seed] 
 
     def reset(self):
         self._p.resetSimulation()
@@ -114,6 +118,9 @@ class SimpleDrivingEnv(gym.Env):
 
         # Visual element of the goal
         self.goal_object = Goal(self._p, self.goal)
+
+        #Obstacle generation
+        self.generateObstacle(1)
 
         # Get observation to return
         carpos = self.car.get_observation()
@@ -193,3 +200,11 @@ class SimpleDrivingEnv(gym.Env):
 
     def close(self):
         self._p.disconnect()
+
+    def closestObstacle(self):
+        dist_to_obstacle = 0
+
+    def generateObstacle(self, nmbr_obstacles):
+        self.obstacle = (2,3)
+        self.obstacle_object = Obstacle(self._p, self.obstacle)
+        dist_to_obstacle = 0
