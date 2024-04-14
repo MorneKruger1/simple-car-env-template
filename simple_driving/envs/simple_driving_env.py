@@ -240,10 +240,10 @@ class SimpleDrivingEnv(gym.Env):
             if distance < closest_distance:
                 # closest_distance = distance
                 closest_obstacle_id = i
-                # closest_obstacle_pos = obstacle_pos
+                closest_obstacle_pos = obstacle_pos
 
         # Optional: Return more information about the closest obstacle
-        return self.obstacle[closest_obstacle_id]
+        return closest_obstacle_pos[closest_obstacle_id]
             
         
 
