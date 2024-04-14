@@ -132,7 +132,8 @@ class SimpleDrivingEnv(gym.Env):
                                            (carpos[1] - self.goal[1]) ** 2))
 
         #Obstacle generation
-        self.generateObstacle(6)
+        self.generateObstacle(10)
+        self.closestObstacle()
 
         car_ob = self.getExtendedObservation()
         return np.array(car_ob, dtype=np.float32)
