@@ -89,6 +89,16 @@ class SimpleDrivingEnv(gym.Env):
         reward = -dist_to_goal
         self.prev_dist_to_goal = dist_to_goal
 
+        closest_obstacle = self.closestObstacle()
+        dist_to_obstacle = math.sqrt(((carpos[0] - closest_obstacle[0]) ** 2 +
+                                  (carpos[1] - closest_obstacle[1]) ** 2))
+        
+        if dist_to_obstacle < 1.5 and not self.reached_goal:
+            # print("hit obstacle")
+            reward -= 80
+            self.done = True
+            self.reached_goal = False
+
         # Done by reaching goal
         if dist_to_goal < 1.5 and not self.reached_goal:
             # print("reached goal")
@@ -133,9 +143,9 @@ class SimpleDrivingEnv(gym.Env):
 
         #Obstacle generation
         self.generateObstacle(10)
-        self.closestObstacle()
 
         car_ob = self.getExtendedObservation()
+        print(car_ob)
         return np.array(car_ob, dtype=np.float32)
 
     def render(self, mode='human'):
@@ -200,7 +210,9 @@ class SimpleDrivingEnv(gym.Env):
         invCarPos, invCarOrn = self._p.invertTransform(carpos, carorn)
         goalPosInCar, goalOrnInCar = self._p.multiplyTransforms(invCarPos, invCarOrn, goalpos, goalorn)
 
-        observation = [goalPosInCar[0], goalPosInCar[1]]
+        obstaclePos = self.closestObstacle()
+
+        observation = [goalPosInCar[0], goalPosInCar[1], obstaclePos[0], obstaclePos[1]]
         return observation
 
     def _termination(self):
@@ -211,8 +223,25 @@ class SimpleDrivingEnv(gym.Env):
 
     def closestObstacle(self):
         
+        carpos, carorn = self._p.getBasePositionAndOrientation(self.car.car)
+        closest_distance = float('inf')  # Initialize with a very large number
+        closest_obstacle_id = None
+        closest_obstacle_pos = None
+
+        # Iterate over all obstacles
         for i in range(self.number_obstacles):
-            print(self.obstacle[i])
+            obstacle_pos = self.obstacle[i]
+            # Calculate the Euclidean distance from the car to this obstacle
+            distance = math.sqrt((carpos[0] - obstacle_pos[0])**2 + (carpos[1] - obstacle_pos[1])**2)
+            
+            # Update the closest obstacle if this one is closer
+            if distance < closest_distance:
+                # closest_distance = distance
+                # closest_obstacle_id = i
+                closest_obstacle_pos = obstacle_pos
+
+        # Optional: Return more information about the closest obstacle
+        return closest_obstacle_pos
             
         
 
