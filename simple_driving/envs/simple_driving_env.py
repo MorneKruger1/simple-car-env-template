@@ -243,7 +243,7 @@ class SimpleDrivingEnv(gym.Env):
             print("distance: ", distance)
             # Update the closest obstacle if this one is closer
             if distance < closest_distance:
-                # closest_distance = distance
+                closest_distance = distance
                 closest_obstacle_id = i
                 print("In if")
                 # closest_obstacle_pos = obstacle_pos
