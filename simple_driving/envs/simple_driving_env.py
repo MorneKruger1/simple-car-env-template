@@ -48,8 +48,9 @@ class SimpleDrivingEnv(gym.Env):
         self.reset()
         self._envStepCounter = 0
 
-        self.obstacle_object = None
-        self.obstacle = None
+        self.obstacle_object = {}
+        self.obstacle = {}
+        self.number_obstacles = 0
 
 
     def step(self, action):
@@ -120,14 +121,16 @@ class SimpleDrivingEnv(gym.Env):
         # Visual element of the goal
         self.goal_object = Goal(self._p, self.goal)
 
-        #Obstacle generation
-        self.generateObstacle(1)
 
         # Get observation to return
         carpos = self.car.get_observation()
 
         self.prev_dist_to_goal = math.sqrt(((carpos[0] - self.goal[0]) ** 2 +
                                            (carpos[1] - self.goal[1]) ** 2))
+
+        #Obstacle generation
+        self.generateObstacle(6)
+
         car_ob = self.getExtendedObservation()
         return np.array(car_ob, dtype=np.float32)
 
@@ -203,9 +206,28 @@ class SimpleDrivingEnv(gym.Env):
         self._p.disconnect()
 
     def closestObstacle(self):
-        dist_to_obstacle = 0
+        
+        for i in range(self.number_obstacles):
+            print(self.obstacle[i])
+            
+        
 
     def generateObstacle(self, nmbr_obstacles):
-        self.obstacle = (2,3)
-        self.obstacle_object = Obstacle(self._p, self.obstacle)
-        dist_to_obstacle = 0
+
+        self.number_obstacles = nmbr_obstacles
+
+        #Set the max x and Y so that the obstacle does not generate in the goal
+        max_x = abs(self.goal[0]) - 1
+        max_y = abs(self.goal[1]) - 1
+
+        for i in range(nmbr_obstacles):
+            x = (self.np_random.uniform(2, max_x) if self.np_random.integers(2) else
+                self.np_random.uniform(-max_x, -2))
+            y = (self.np_random.uniform(2, max_y) if self.np_random.integers(2) else
+                self.np_random.uniform(-max_y, -2))
+
+            self.obstacle[i] = (x,y)
+            self.obstacle_object[i] = Obstacle(self._p, self.obstacle[i])
+
+        
+        
