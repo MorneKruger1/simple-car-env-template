@@ -95,14 +95,14 @@ class SimpleDrivingEnv(gym.Env):
                                   (carpos[1] - closest_obstacle[1]) ** 2))
         
         print("Distance to Obstacle", dist_to_obstacle)
-        if dist_to_obstacle < 1.5 and not self.reached_goal:
+        if dist_to_obstacle < 1 and not self.reached_goal:
             print("hit obstacle")
             reward -= 80
             self.done = True
             self.reached_goal = False
 
         # Done by reaching goal
-        if dist_to_goal < 1.5 and not self.reached_goal:
+        if dist_to_goal < 1 and not self.reached_goal:
             # print("reached goal")
             reward += 50
             self.done = True
@@ -224,9 +224,7 @@ class SimpleDrivingEnv(gym.Env):
         self._p.disconnect()
 
     def closestObstacle(self):
-        
-        # carpos, carorn = self._p.getBasePositionAndOrientation(self.car.car)
-        # invCarPos, invCarOrn = self._p.invertTransform(carpos, carorn)
+    
         carpos = self.car.get_observation()
         print(carpos)
 
@@ -237,22 +235,18 @@ class SimpleDrivingEnv(gym.Env):
         # Iterate over all obstacles
         for i in range(self.number_obstacles):
             obstacle_pos = self.obstacle[i]
-            print("I: ", i)
+            # print("I: ", i)
             # Calculate the Euclidean distance from the car to this obstacle
             distance = math.sqrt((carpos[0] - obstacle_pos[0])**2 + (carpos[1] - obstacle_pos[1])**2)
-            print("distance: ", distance)
+            # print("distance: ", distance)
             # Update the closest obstacle if this one is closer
             if distance < closest_distance:
                 closest_distance = distance
                 closest_obstacle_id = i
-                print("In if")
                 # closest_obstacle_pos = obstacle_pos
         
         closest_obstacle_pos = self.obstacle[closest_obstacle_id]
-        print("Closes obstacle in calculate: " ,closest_obstacle_pos)
-        print("Closest ID" , closest_obstacle_id)
 
-        # obstaclePosInCar, obstacleOrnInCar = self._p.multiplyTransforms(invCarPos, invCarOrn, self.obstacle[closest_obstacle_id], 0)
         # Optional: Return more information about the closest obstacle
         return closest_obstacle_pos
             
