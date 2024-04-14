@@ -90,11 +90,13 @@ class SimpleDrivingEnv(gym.Env):
         self.prev_dist_to_goal = dist_to_goal
 
         closest_obstacle = self.closestObstacle()
+        print("Closest Obstacle", closest_obstacle)
         dist_to_obstacle = math.sqrt(((carpos[0] - closest_obstacle[0]) ** 2 +
                                   (carpos[1] - closest_obstacle[1]) ** 2))
         
+        print("Distance to Obstacle", dist_to_obstacle)
         if dist_to_obstacle < 1.5 and not self.reached_goal:
-            # print("hit obstacle")
+            print("hit obstacle")
             reward -= 80
             self.done = True
             self.reached_goal = False
