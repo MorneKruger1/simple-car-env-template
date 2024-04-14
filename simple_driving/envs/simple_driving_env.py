@@ -228,6 +228,7 @@ class SimpleDrivingEnv(gym.Env):
         # carpos, carorn = self._p.getBasePositionAndOrientation(self.car.car)
         # invCarPos, invCarOrn = self._p.invertTransform(carpos, carorn)
         carpos = self.car.get_observation()
+        print(carpos)
 
         closest_distance = float('inf')  # Initialize with a very large number
         closest_obstacle_id = None
