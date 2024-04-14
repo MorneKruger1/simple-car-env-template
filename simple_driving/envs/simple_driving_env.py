@@ -225,7 +225,10 @@ class SimpleDrivingEnv(gym.Env):
 
     def closestObstacle(self):
         
-        carpos, carorn = self._p.getBasePositionAndOrientation(self.car.car)
+        # carpos, carorn = self._p.getBasePositionAndOrientation(self.car.car)
+        # invCarPos, invCarOrn = self._p.invertTransform(carpos, carorn)
+        carpos = self.car.get_observation()
+
         closest_distance = float('inf')  # Initialize with a very large number
         closest_obstacle_id = None
         closest_obstacle_pos = None
@@ -246,6 +249,7 @@ class SimpleDrivingEnv(gym.Env):
         print("Closes obstacle in calculate: " ,closest_obstacle_pos)
         print("Closest ID" , closest_obstacle_id)
 
+        # obstaclePosInCar, obstacleOrnInCar = self._p.multiplyTransforms(invCarPos, invCarOrn, self.obstacle[closest_obstacle_id], 0)
         # Optional: Return more information about the closest obstacle
         return closest_obstacle_pos
             
