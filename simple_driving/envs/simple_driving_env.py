@@ -224,7 +224,6 @@ class SimpleDrivingEnv(gym.Env):
     def closestObstacle(self):
     
         carpos = self.car.get_observation()
-        print(carpos)
 
         closest_distance = float('inf')  # Initialize with a very large number
         closest_obstacle_id = None
