@@ -86,7 +86,7 @@ class SimpleDrivingEnv(gym.Env):
         dist_to_goal = math.sqrt(((carpos[0] - goalpos[0]) ** 2 +
                                   (carpos[1] - goalpos[1]) ** 2))
         # reward = max(self.prev_dist_to_goal - dist_to_goal, 0)
-        reward = -dist_to_goal*1.5
+        reward = -dist_to_goal
         self.prev_dist_to_goal = dist_to_goal
 
         closest_obstacle = self.closestObstacle()
@@ -95,12 +95,12 @@ class SimpleDrivingEnv(gym.Env):
 
         if dist_to_obstacle < 1.0 and not self.reached_goal:
             # print("hit obstacle")
-            reward -= 60
+            reward -= 50
             self.done = True
             self.reached_goal = False
 
         # Done by reaching goal
-        if dist_to_goal < 1.0 and not self.reached_goal:
+        if dist_to_goal < 1.5 and not self.reached_goal:
             # print("reached goal")
             reward += 50
             self.done = True
@@ -142,7 +142,7 @@ class SimpleDrivingEnv(gym.Env):
                                            (carpos[1] - self.goal[1]) ** 2))
 
         #Obstacle generation
-        self.generateObstacle(10)
+        self.generateObstacle(6)
 
         car_ob = self.getExtendedObservation()
         # print(car_ob)
