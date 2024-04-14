@@ -145,7 +145,7 @@ class SimpleDrivingEnv(gym.Env):
         self.generateObstacle(10)
 
         car_ob = self.getExtendedObservation()
-        print(car_ob)
+        # print(car_ob)
         return np.array(car_ob, dtype=np.float32)
 
     def render(self, mode='human'):
