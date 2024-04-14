@@ -41,6 +41,11 @@ class SimpleDrivingEnv(gym.Env):
         self.car = None
         self.goal_object = None
         self.goal = None
+
+        self.obstacle_object = {}
+        self.obstacle = {}
+        self.number_obstacles = 0
+
         self.done = False
         self.prev_dist_to_goal = None
         self.rendered_img = None
@@ -48,9 +53,7 @@ class SimpleDrivingEnv(gym.Env):
         self.reset()
         self._envStepCounter = 0
 
-        self.obstacle_object = {}
-        self.obstacle = {}
-        self.number_obstacles = 0
+        
 
 
     def step(self, action):
