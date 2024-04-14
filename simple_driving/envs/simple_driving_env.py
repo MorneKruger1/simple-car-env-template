@@ -237,13 +237,15 @@ class SimpleDrivingEnv(gym.Env):
         # Iterate over all obstacles
         for i in range(self.number_obstacles):
             obstacle_pos = self.obstacle[i]
+            print("I: ", i)
             # Calculate the Euclidean distance from the car to this obstacle
             distance = math.sqrt((carpos[0] - obstacle_pos[0])**2 + (carpos[1] - obstacle_pos[1])**2)
-            
+            print("distance: ", distance)
             # Update the closest obstacle if this one is closer
             if distance < closest_distance:
                 # closest_distance = distance
                 closest_obstacle_id = i
+                print("In if")
                 # closest_obstacle_pos = obstacle_pos
         
         closest_obstacle_pos = self.obstacle[closest_obstacle_id]
